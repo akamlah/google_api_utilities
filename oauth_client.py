@@ -1,9 +1,11 @@
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Gmail API - authentication module
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 import os # Miscellaneous operating system interfaces
 import pickle # Python object serialization
+
+from dotenv import dotenv_values
 
 # Gmail API utils
 from googleapiclient.discovery import build
@@ -12,6 +14,7 @@ from google.auth.transport.requests import Request
 
 # Request all access (permission to read/send/receive emails, manage the inbox, and more)
 SCOPES = ['https://mail.google.com/']
+config = dotenv_values(".env.shared")
 
 def authenticate_oauth_gmail() :
     creds = None
@@ -30,7 +33,7 @@ def authenticate_oauth_gmail() :
             if creds and creds.expired and creds.refresh_token :
                 creds.refresh(Request())
             else :
-                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(config.get('CREDENTIALS'), SCOPES)
                 # run_local_server uses a default host of localhost for the redirect_uri,
                 # which is fine when you run the project locally but won't work once your project is deployed.
                 # ref: https://developers.google.com/identity/protocols/oauth2/web-server#python_1

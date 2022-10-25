@@ -1,11 +1,9 @@
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Gmail API - send emails
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # module in this utility kit responsible for establishing connection to google api
 import oauth_client
-
-from dotenv import dotenv_values # to read .env file for private data
 
 # for encoding/decoding messages in base64
 from base64 import urlsafe_b64decode, urlsafe_b64encode
@@ -37,18 +35,28 @@ def build_message(sender, to, subject, body, attachments = []):
 def send_message(gmail_client, sender, to, subject, body, attachments = []) :
     return gmail_client.users().messages().send(
         userId = "me",
-        body=build_message(to, subject, body, attachments)
+        body=build_message(sender, to, subject, body, attachments)
     ).execute()
 
-config = dotenv_values(".env.secret")
-test_user_address = config.get('TEST_USER_ADDRESS')
-test_sending_address = config.get('DEVELOPER_EMAIL_ADDRESS')
 
-# test :
-send_message(
-    oauth_client.authenticate_oauth_gmail(),
-    test_sending_address, # from .env.secret
-    test_user_address, # from .env.secret
-    "my msg",
-    "hi there"
-)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# test
+
+from dotenv import dotenv_values
+
+if __name__ == "__main__":
+
+    config = dotenv_values(".env.secret")
+    test_user_address = config.get('TEST_USER_ADDRESS')
+    test_sending_address = config.get('DEVELOPER_EMAIL_ADDRESS')
+
+    send_message(
+        oauth_client.authenticate_oauth_gmail(),
+        test_sending_address,
+        test_user_address,
+        "my msg",
+        "hi there 4"
+    )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
