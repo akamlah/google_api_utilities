@@ -3,7 +3,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 import os # Miscellaneous operating system interfaces
-from dotenv import dotenv_values # to read .env file for private data
 import pickle # Python object serialization
 
 # Gmail API utils
@@ -13,10 +12,6 @@ from google.auth.transport.requests import Request
 
 # Request all access (permission to read/send/receive emails, manage the inbox, and more)
 SCOPES = ['https://mail.google.com/']
-
-config = dotenv_values(".env.secret")
-test_sending_address = config.get('DEVELOPER_EMAIL_ADDRESS')
-test_user_address = config.get('TEST_USER_ADDRESS')
 
 def authenticate_oauth_gmail() :
     creds = None

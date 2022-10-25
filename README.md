@@ -20,12 +20,22 @@ You need to enable Gmail API with your developer address, to create a client to 
 
 * Go to [Google API's Dashboard](https://console.cloud.google.com/apis/dashboard)
 * Serch for Gmail API in the searchbar and enable it
-* Hit the Create Credentialsbutton to create an OAuth 2.0 client ID and Select "User data" to create an OAuth Client
+* Hit the Create Credentials button to create an OAuth 2.0 client ID and Select "User data" to create an OAuth Client
 * Select Desktop Application as type.
-* Download .json of the credentials
+* Download the .json of the credentials and put it at the root of this repository or edit the path in ```.env.shared```
 
 Note: If this is the first time you use Google APIs, you may need to simply create an OAuth Consent screen and add your email as a testing user.
 
-Then create a ```.env.secret``` file at the root of the directory and write following line:  
+### Sensitive data:
+
+Create a ```.env.secret``` file at the root of the directory and write following line:  
 ```DEVELOPER_EMAIL_ADDRESS = <your address>```   
 Add this file to your .gitignore and don't publish sensitive data.   
+
+You can add a ```TEST_USER_ADDRESS``` to test these modules and other sensitive data.  
+You can access them as follows:
+
+```python
+config = dotenv_values(".env.secret")
+dev_mail = config.get('DEVELOPER_EMAIL_ADDRESS')
+```
